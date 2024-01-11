@@ -184,3 +184,17 @@ function myThirdFunction(string $name= "Jackson", string|null $message=null) : s
 myThirdFunction($name="Boby", $message=" Howe are you?");
 myThirdFunction("Bich", "Where are you?");
 myThirdFunction(1,2,3,4,5);
+
+
+
+
+function randArray(int $length, int $min = 1, int $max = 50): array
+{
+    $array = []; // array();
+    for ($i = 0; count($array) < $length; $i++) {
+        $array[] = rand($min, $max);
+    }
+
+    return $array;
+}
+
