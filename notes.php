@@ -184,6 +184,54 @@ function myThirdFunction(string $name= "Jackson", string|null $message=null) : s
 myThirdFunction($name="Boby", $message=" Howe are you?");
 myThirdFunction("Bich", "Where are you?");
 myThirdFunction(1,2,3,4,5);
+$mars = myThirdFunction(name: "Jim", message: "BooooM");
+
+
+function showNumbers(...$numbers) // якшо ми не хочемо встановлювати конкретну кількість змінних
+{
+    var_dump($numbers); // сюди прийде array зі всіми параметрами
+}
+showNumbers(1,2,3,4,5,6);
+
+function counter()
+{
+    static $counter = 0;  // робимо статичну змінну, виклик функцій зберігаєтся.
+    $counter ++;
+    echo $counter . PHP_EOL;
+}
+counter();
+counter();
+counter();
+
+
+$anonymousFunction = function (){   // анонімна функція, можно пережавати зміні, та можно їй передавати в якості аргумента.
+    return "I am anonymous function !!!" . PHP_EOL;
+};
+
+var_dump($anonymousFunction());
+
+
+function myFilter(string $text, callable $function = null)  // callback - функція яка передаєтся в якості аргумента.
+{
+    if (is_callable($function)){
+        $text = $function($text);
+    }
+    return $text;
+}
+$text = "     \n   Hello mather fucka  !!</p><p>   ";
+$text = myFilter($text, "trim");
+$text = myFilter($text, "strip_tags"). PHP_EOL;
+$text = myFilter($text, $anonymousFunction);
+echo $text;
+
+
+
+
+
+
+
+
+
 
 
 
