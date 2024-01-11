@@ -3,7 +3,7 @@
 function someFunction(int $number, int $numberTwo, ?Closure $function = null)
 {
     $result = $number * $numberTwo;
-    if (is_callable($function)){
+    if ($function instanceof Closure){
         $function($result);
     }
     return $result;

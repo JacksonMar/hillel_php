@@ -224,17 +224,90 @@ $text = myFilter($text, "strip_tags"). PHP_EOL;
 $text = myFilter($text, $anonymousFunction);
 echo $text;
 
+// Closure - всі анонимні функцій
+// callable - всі функцій
+
+$number = 2;
+$functionNumber = function ($number1, $number2) use ($number){  // use ($number) - берем тільки значеня з $number = 2,
+    //                                                              та саму змінну $number не змінюємо.
+    $number = $number1 * $number2;
+    echo $number . PHP_EOL;
+};
+
+$functionNumber(5,7);
+echo $number . PHP_EOL;
+
+
+$closure = fn($c) => 5 * $c; // стрілочка функція, fn($c) - обозначаем функцію та передаєм аргумент $c,
+//                              після => все шо повинно повернути.
+echo $closure(10) . PHP_EOL;
+$text = "Hello !!!!";
 
 
 
+echo "============================== ARRAY ==============================" . PHP_EOL;
 
 
+$array = [1 => "element_1", 2 => "element_2", "text" => 100];
+var_dump($array);
+$array[0] = "element_0"; // додаємо в масив
+$array[3] = "array_test";
+var_dump($array);
+
+if (isset($array[1])){    // перевіряємо існує ключ чи ні, якшо да - виводимо значення.
+    var_dump($array[1]);
+}
+
+unset($array[2]);  // видалення ключ значення з масиву.
+
+$array[] = "on the and of array";  // додаваня в кінець масиву.
+
+$array1 = [1,2,3];
+$array2 = [4,5,6];
+$array3 = $array2 + $array1;  // КЛЮЧИ ОДНАКОВІ, тому один масив затре другий.
+var_dump($array3);
+
+$array = ["dich", ...$array3]; // додавайня в середену масива
+var_dump($array);
 
 
+echo "============================== WHILE ==============================" . PHP_EOL;
 
+$i = 0;
+while ($i <= 10){    // якшо умова не виконуєтся, цикл навіть на запустится. while - перевіряє потім робить.
+    echo $i . PHP_EOL;
+    $i++;
+}
+//  DO WHILE
+$i = 0;
+do {
+    echo $i . PHP_EOL; // якшо умова не виконуєтся, то виконаєтся 1 раз. do while - робить потім перевіряє.
+    $i ++;
+} while($i<=10);
 
+// FOREACH
+foreach ($array as $key => $value){
+    echo "$key => $value" . PHP_EOL;
+    if ($key == 3) {
+        $array[$key] = $value * 30; //  $array[$key] - достаємо конкретний ключ та перезаписуємо $value * 3
+        echo "$key => $value" . PHP_EOL;
+    }
+};
+var_dump($array);
 
+// FOR
+for ($i=0; $i<=10; $i++)  // $i=0 - змінна яка використовуєтся в якості лічильника, $i<=10 - умова поки буде робити цикл,
+    //                       $i++ - вираз який змінює значення лічильника.
+{
+    echo $i . PHP_EOL;
+}
 
+$length = count($array);
+for ($i=0; $i < $length; $i++ ){
+    echo $array[$i] . PHP_EOL;
+};
+
+echo array_key_last($array) . PHP_EOL; // повертає остане КЛЮЧ в масиві.
 
 function randArray(int $length, int $min = 1, int $max = 50): array
 {
