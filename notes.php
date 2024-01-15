@@ -286,7 +286,7 @@ do {
 } while($i<=10);
 
 // FOREACH
-foreach ($array as $key => $value){
+foreach ($array as $key => $value) {
     echo "$key => $value" . PHP_EOL;
     if ($key == 3) {
         $array[$key] = $value * 30; //  $array[$key] - достаємо конкретний ключ та перезаписуємо $value * 3
@@ -296,26 +296,33 @@ foreach ($array as $key => $value){
 var_dump($array);
 
 // FOR
-for ($i=0; $i<=10; $i++)  // $i=0 - змінна яка використовуєтся в якості лічильника, $i<=10 - умова поки буде робити цикл,
+for ($i = 0; $i <= 10; $i++)  // $i=0 - змінна яка використовуєтся в якості лічильника, $i<=10 - умова поки буде робити цикл,
     //                       $i++ - вираз який змінює значення лічильника.
 {
     echo $i . PHP_EOL;
 }
 
 $length = count($array);
-for ($i=0; $i < $length; $i++ ){
+for ($i = 0; $i < $length; $i++) {
     echo $array[$i] . PHP_EOL;
 };
 
 echo array_key_last($array) . PHP_EOL; // повертає остане КЛЮЧ в масиві.
 
+
+echo "==========================================================" . PHP_EOL;
+
 function randArray(int $length, int $min = 1, int $max = 50): array
 {
     $array = []; // array();
     for ($i = 0; count($array) < $length; $i++) {
-        $array[] = rand($min, $max);
+        $array[] = rand($min, $max);  // rand - функція для генерацій рандомного значень.
     }
 
     return $array;
 }
 
+$randArray= randArray(5);
+$sum = array_sum($randArray);  // array_sum - виводить суму усіх чисел в масиві.
+echo $sum . PHP_EOL;
+$array_key_last = array_key_first($randArray); // array_key_first - повертає перший ключ.
