@@ -325,4 +325,154 @@ function randArray(int $length, int $min = 1, int $max = 50): array
 $randArray= randArray(5);
 $sum = array_sum($randArray);  // array_sum - виводить суму усіх чисел в масиві.
 echo $sum . PHP_EOL;
-$array_key_last = array_key_first($randArray); // array_key_first - повертає перший ключ.
+$array_key_first = array_key_first($randArray) . PHP_EOL; // array_key_first - повертає перший ключ.
+$array_key_last = array_key_last($randArray) . PHP_EOL; // повертає остане КЛЮЧ в масиві.
+echo $array_key_first;
+echo $array_key_last;
+
+
+$key = ["sky", "son", "grass"];
+$value = ["blue", "green", "yellow"];
+$somArray = [];
+for ($i; $i < count($key); $i++) {
+    $somArray[$key[$i]] = $value[$i];
+}
+var_dump($somArray);
+$arrayCombine = array_combine($key, $value);  // array_combine - перетворює з 2-х листів 1 дікт.
+//                                              Обєднує в один масив по ключ-значення.
+
+var_dump(array_keys($arrayCombine)); // array_keys - виводить усі улючі.
+var_dump(array_values($arrayCombine)); // array_values - виводить усі значення.
+var_dump(array_flip($arrayCombine)); // array_flip - міняє місцями ключ - значення.
+
+echo "==========================================================" . PHP_EOL;
+
+function calculate(int|float $number1, int|float $number2)
+{
+    $product = $number1 * $number2;
+    $sum = $number1 + $number2;
+    $minus = $number1 - $number2;
+    return [$product, $sum, $minus];
+}
+
+$calculateResult = calculate(9, 5);
+$product = $calculateResult[0]; // так можно загоняти значення функій в змінні.
+$sum = $calculateResult[1];
+$minus = $calculateResult[2];
+
+list($product2, $sum2, $minus2) = calculate(5, 2);  // так можно загоняти значення функій в змінні.
+[$product2, $sum2, $minus2] = calculate(5, 2);  // так можно загоняти значення функій в змінні.
+
+echo $product . PHP_EOL;
+echo $sum . PHP_EOL;
+echo $minus . PHP_EOL;
+
+echo $product2 . PHP_EOL;
+echo $sum2 . PHP_EOL;
+echo $minus2 . PHP_EOL;
+
+echo "==========================================================" . PHP_EOL;
+$name = "Lusi, Jim, Marta";
+
+$arrayNames = explode(", ", $name); // explode - розбиває на масив. ", " - по якому признаку робвиваємо.
+//                                              $name - яку строку розбиваємо.
+var_dump($arrayNames);
+$stringName = implode("!", $arrayNames); // implode - зєднує масив в строку по признаку ("!")
+echo $stringName . PHP_EOL;
+
+$user = ["name" => "Lusy", "age" => 29, "location" => "Donetsk"];
+extract($user); // extract - перетворює ключ в змінну, а значення в значення в значення змінной.
+echo ("$name $age $location") . PHP_EOL;
+
+$name = "Busya";
+$age = 78;
+$location = "Lviv";
+
+$array = compact("name", "age", "location"); // compact - перетворює ззмінну в ключ,
+//                                                                   а значення змінной в значення ключа.
+var_dump($array);
+echo "==========================================================" . PHP_EOL;
+
+$numbers = [-1, -6, 9, 9, -1, 10, false];
+$positive = array_filter($numbers, function ($number) {  // array_filter - фільтрує усі значення які повертають false.
+    //                                                      Також можно передати колбек функцію.
+    return $number > 0;
+});
+var_dump($positive);
+$unique = array_unique($numbers); // array_unique повертає лише унікальні значення.
+var_dump($unique);
+echo "==========================================================" . PHP_EOL;
+
+$array1 = [1,2,3];
+$array2 = [4,5,6];
+$arrayMerge = array_merge($array1, $array2); // array_merge - обʼеднує масиви і не затірає по індексу!
+var_dump($arrayMerge);
+
+function myMap(array $array, callable $function) : array
+{
+    foreach ($array as $key => $value){
+        $array[$key] = $function($value);
+    }
+    return $array;
+}
+$array = [1,2,3];
+var_dump(myMap($array, fn ($number) => $number ** 2));
+
+var_dump( array_map(fn ($number) => $number ** 2, $array2)); // array_map - приймає колбєк, та масив к якаому треба приминити колбек.
+
+echo "==========================================================" . PHP_EOL;
+
+$array = [1 => 22, 0 => 12, 2 => 33];
+asort($array);  // asort - сортує значеня зі збереженням ключів. (багато функцій - дивись документацію.)
+var_dump($array);
+
+echo "==========================================================" . PHP_EOL;
+
+const TEST = "TEST"; // const - назначаємо константу TEST (в классах). Доступно лише там де вона обьявлена.
+define("TEST2", "TEST"); // Назначає константу (просто в коде) Доступно для всіх пространствах імен
+
+echo "===========================Iterator-Genirator=============================" . PHP_EOL;
+
+// Основне користь генератора в тому що на обьект не виділяєтся памʼять.
+// Зазвичай приміняють при читанні великіх оʼбемів данних, читає по строчно.
+
+function randomArraySecond() // ?array $randomArray = null ---> ?array запис шо може повернути нулл.
+{
+    for ($i = 1; $i <= 10; $i++) {
+        $key = yield $i;
+        if ($key == "stop"){ // якшо сюди потрапить ключ "stop" то робимо вихід.
+            echo "key == \"stop\"" . PHP_EOL;
+        }
+    }
+    yield "(+_+)"; // можно повертати декілька разів
+    yield "(+_+)";
+    yield "(+_+)";
+    yield from ["Hello", "mister", "Jack"]; // можно в ітерацій засунути ще ітерацію, ключове слово from.
+}
+
+$genirator = randomArraySecond();
+foreach ($genirator as $value) {
+    if ($value === 9) {  // якшо значення === 9 то
+        $genirator->send("stop"); // то передаємо в генератор $genirator значення "stop"
+    }
+    echo $value . PHP_EOL;
+}
+
+$genirator2 = randomArraySecond();
+echo $genirator2->current() .PHP_EOL; // викликає значення ітератора.
+$genirator2->next(); // викликає наступне значення ітерацій.
+echo $genirator2->current() . PHP_EOL; // викликає значення ітератора.
+
+echo "==========================================================" . PHP_EOL;
+
+function generator(int $start, int $stop)
+{
+    for ($i = 1; $i <= 10; $i++) {
+        $key = yield $i;
+    }
+}
+
+$start = memory_get_usage(); // memory_get_usage - скільки використовує памʼяті в байтах.
+$number = generator(1, 60000);
+$end = memory_get_usage();
+echo $end - $start . PHP_EOL;
