@@ -38,8 +38,8 @@ $hello = "Hi, what's your name?";
 
 echo $hello . PHP_EOL;
 
-$userName = trim(fgets(STDIN));
-var_dump($userName);
+//$userName = trim(fgets(STDIN));
+//var_dump($userName);
 /*
 fgets - функція вводу
 STDIN - данні беремо з терміналу
@@ -101,7 +101,7 @@ echo match ($statusCodeMatch){
 
 echo "========================== STR ==========================" . PHP_EOL;
 $somSrt = "Die rashka";
-
+$userName = "Jack";
 echo strlen($somSrt) . PHP_EOL; // strlen - кількість символів в рядку
 
 $hello = "Hello {user_name} !!!" . PHP_EOL;
@@ -334,7 +334,7 @@ echo $array_key_last;
 $key = ["sky", "son", "grass"];
 $value = ["blue", "green", "yellow"];
 $somArray = [];
-for ($i; $i < count($key); $i++) {
+for ($i = 0; $i < count($key); $i++) {
     $somArray[$key[$i]] = $value[$i];
 }
 var_dump($somArray);
@@ -476,3 +476,180 @@ $start = memory_get_usage(); // memory_get_usage - скільки викорис
 $number = generator(1, 60000);
 $end = memory_get_usage();
 echo $end - $start . PHP_EOL;
+
+echo "==========================file==========================" . PHP_EOL;
+
+$file = fopen("test.txt", "w+"); // fopen - файл відкрити, тип данних - resource.
+//              w+ - відкриває тільки для запису, якшо нема файла - намагаєтся створити.
+fwrite($file, "Hello mathe faka" . PHP_EOL); // fwrite - записує в файл.
+fclose($file); // fclose - закрили файл.
+var_dump($file);
+
+function fileWrite(string $path, string $content)
+{
+    $file = fopen($path, "a+");
+    if (!$file){        // якшо файла нема - повертає фолс
+        return false;
+    }
+    $result = fwrite($file, $content);
+    fclose($file);
+
+    if (!$result){
+        return false;
+    }
+    return true;
+}
+
+fileWrite("test.txt", "Mr Robot say hello" . PHP_EOL);
+file_exists("test.txt"); // file_exists - перевіряє чи існує файл.
+$filePath = "test.txt";
+if (file_exists($filePath)) {
+    $file = fopen($filePath, "r");  // fopen - відкриває файл, приймає шлях до файлу.
+    $size = filesize($filePath); // filesize - видає розмір файла у байтах.
+    $content = fread($file, $size); //  fread - читає файл, але треба вказувати кінецевий розмір (filesize($file)).
+    fclose($file);
+    $content2 = file($filePath); // file - відкриває файл (указуємо шлях до файлу) та виводить масив з рядками.
+}
+fileWrite("test.txt", "Tester --> Mr Jack (+_+)". PHP_EOL);
+echo "==========================================================" . PHP_EOL;
+
+$file = fopen($filePath, "r");
+$line = fgets($file);
+$line2 = fgets($file);
+echo $line . PHP_EOL;
+echo $line2 . PHP_EOL;
+while ($line = fgets($file)){
+    echo $line . PHP_EOL;
+}
+
+//for ($i=0; $i <= 10000; $i++){
+//    fileWrite("content.txt", "Mr Robot say hello : " . $i . PHP_EOL);
+//}
+
+$start = memory_get_usage();
+$file = fopen("content.txt", "r");
+$lines = [];
+while ($line = fgets($file) !== false) {
+    $lines[] = $line;
+}
+$end = memory_get_usage();
+echo $end - $start . PHP_EOL;
+
+echo "=========================(+_+)=============================" . PHP_EOL;
+
+$filePath = "content.txt";
+function generatorFile(string $filePath)
+{
+    $file = fopen($filePath, "r");
+    while (($line = fgets($file)) !== false) {
+        yield $line;
+    }
+    fclose($file);
+}
+
+$start2 = memory_get_usage();
+generatorFile($filePath);
+
+foreach (generatorFile($filePath) as $line) {
+//     echo $line;
+    // Iterate over the generator and consume its values
+}
+
+$end2 = memory_get_usage();
+echo $end2 - $start2 . PHP_EOL;
+
+echo "==========================Files===========================" . PHP_EOL;
+
+$content = file_get_contents("test.txt"); // file_get_contents - зчитує данні з ресурсу (файлу, терміналу)
+var_dump($content);
+file_put_contents("test.txt", "File put contents" . PHP_EOL, FILE_APPEND); // file_put_contents - записуємо в файл.
+// Файл ("text.txt"), контент ("File put contents"), FILE_APPEND - додаємо в кінець файла а не перезаписуємо.
+
+unlink("test.txt"); // unlink - видаляє файл.
+//rename("som_command.php", "som_cammand2.php"); // rename - перейменування файла, та можно переносити файл в іншу діректорію.
+
+
+echo "==========================Connect File==========================" . PHP_EOL;
+
+/*
+include // підключає файл, якшо файлу нема викидує ворнінг та код відпрацьовує.
+require // підключає файл, якшо файло не існує - фатал єрор
+include_once // підключає файл, та перевіряє чи підключен був вже файл ворнинг, якшо так - не підключає.
+require_once // підключає файл, якшо файлу нема - фатал ерор, якшо вже був підключен не пвдключає цого. */
+
+include "functions.php";
+
+logger("My second logs");
+
+var_dump(get_included_files()); // get_included_files - виводить масиз з файлами які підключені.
+echo "==========================================================" . PHP_EOL;
+
+echo __DIR__ . PHP_EOL; // магічний метод - показує абсолютний шлях.
+echo __FILE__ . PHP_EOL; // магічний метод - показує файл.
+echo __LINE__ . PHP_EOL; // магічний метод - показує кількість строк.
+
+//define("APP_DIR", __DIR__ . "/");
+//
+//echo APP_DIR . PHP_EOL;
+echo "====================== Динамичній обʼект =============================<br>" . PHP_EOL;
+
+$object = new stdClass; // створили класс
+$object->name = "Jim"; // динамично задаємо властивості обʼєкту.
+$object->age = 36;
+$object->test = "TEST";
+var_dump($object);
+unset($object->test); // unset - видалити властівість.
+foreach ($object as $key => $value){
+    echo "$key => $value \n";
+}
+
+echo "==========================================================<br>" . PHP_EOL;
+
+require_once "controllers/Person.php";
+
+/*$person = new Person;
+$person->name = "Jim";
+$person->age = 36;
+
+$person2 = new Person;
+$person2->age = 32;
+
+var_dump($person);
+var_dump($person2);*/
+$person = new Person("Jack",36);
+$person2 = new Person("Suzi",  32);
+
+$person = $person2; // це теж саме шо і &$person2 - посилання на ячейку пмʼяті
+$person = clone $person2 ; // clone - клонування обєкту, копіювання
+
+$person->printName() . "<br>"; // printName - метод до якого ми звертаємось в розрізі обʼєкту. Метож створили самі.
+$person->printAge() . "<br>";
+
+try {
+    $person3 = new Person("B", 0);
+} catch (Exception $exception){
+    logger($exception -> getMessage() ." File: " . $exception->getFile() . " Line: " . $exception->getLine()); //
+    // $exception -> getMessage() - повідомлення яку ми прописали в throw new Exception("Name in invalid");
+    // " File: " . $exception->getFile() - файл в якому це трапилось.
+    // " Line: " . $exception->getLine() - лінія на якой трапилось цей екзепшн.
+
+}
+
+echo "<br>=========================Dinamic===========================<br>" . PHP_EOL;
+
+require_once APP_DIR . "controllers/Dynamic.php";
+
+$dynamic = new Dynamic();
+$dynamic->name = "Mik"; // викликає НЕІСНУЮЧУ властивість (name).
+echo $dynamic->age;
+
+var_dump($dynamic); // name + age - встановили диномічно !!!
+
+isset($dynamic->location);
+empty($dynamic->sity);
+unset($dynamic->dich); // видаляємо неіснуючу властивість, очікуєм виклика __unset
+
+$dynamic->test("test", "test2"); // викликаємо неіснуючуго методу, очікуєм виклику __call.
+echo "<br>==========================================================<br>" . PHP_EOL;
+
+
