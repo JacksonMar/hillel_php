@@ -12,8 +12,6 @@ class TaskManager
         $this->setFilePath($filePath);
         if (!file_exists($this->getFilePath())) {
             $this->saveTasks();
-        } else {
-            $this->loadTasks();
         }
     }
 
