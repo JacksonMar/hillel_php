@@ -605,19 +605,19 @@ foreach ($object as $key => $value){
 unset($person);
 echo "==========================================================<br>" . PHP_EOL;
 
-require_once "controllers/Person.php";
+require_once "classes/Person2.php";
 
-/*$person = new Person;
+/*$person = new Person2;
 $person->name = "Jim";
 $person->age = 36;
 
-$person2 = new Person;
+$person2 = new Person2;
 $person2->age = 32;
 
 var_dump($person);
 var_dump($person2);*/
-$person = new Person("Jack",36);
-$person2 = new Person("Suzi",  32);
+$person = new Person2("Jack",36);
+$person2 = new Person2("Suzi",  32);
 
 $person = $person2; // це теж саме шо і &$person2 - посилання на ячейку пмʼяті
 $person = clone $person2 ; // clone - клонування обєкту, копіювання
@@ -626,7 +626,7 @@ $person->printName() . "<br>"; // printName - метод до якого ми з
 $person->printAge() . "<br>";
 
 try {
-    $person3 = new Person("B", 0);
+    $person3 = new Person2("B", 0);
 } catch (Exception $exception){
     logger($exception -> getMessage() ." File: " . $exception->getFile() . " Line: " . $exception->getLine()); //
     // $exception -> getMessage() - повідомлення яку ми прописали в throw new Exception("Name in invalid");
@@ -639,7 +639,7 @@ unset($person2);
 
 echo "<br>=========================Dinamic===========================<br>" . PHP_EOL;
 
-require_once APP_DIR . "controllers/Dynamic.php";
+require_once APP_DIR . "classes/Dynamic.php";
 
 $dynamic = new Dynamic();
 $dynamic->name = "Mik"; // викликає НЕІСНУЮЧУ властивість (name).
@@ -661,6 +661,8 @@ require_once "interfaces/DiscountInterface.php";
 require_once "classes/PercentageDiscount.php";
 require_once "classes/Order.php";
 require_once "classes/FixedDiscount.php";
+require_once "classes/Person.php";
+require_once "classes/Logger.php";
 
 
 $blog = new Blog("Som title", " Som content");
@@ -684,10 +686,10 @@ $items = [
 //    $order = new Order($items, $discountFixed);
 //
 //   $order->calculateTotal();
-//    $person = new Person('Jim', 30);
+//    $person = new Person2('Jim', 30);
 //
 //    echo $person::$oldAge;
-//    Person::showInfo();
+//    Person2::showInfo();
 ////    echo $person->calculateOldAge();
 //} catch (Exception $exception) {
 //    echo $exception->getMessage();
@@ -712,3 +714,26 @@ try {
 }catch (Exception $exception){
     echo $exception->getMessage();
 }
+
+echo "<br>=========================Наслідуваня та Інтерфейси та Трейди===========================<br>" . PHP_EOL;
+
+$person = new Person('Jim', 30);
+echo $person::$oldAge . PHP_EOL;
+Person::showInfo() . PHP_EOL;
+echo $person->calculateOldAge() . PHP_EOL;
+
+echo $exception->getMessage() . PHP_EOL; // $exception->getMessage() - виводе повідомлення помилки.
+
+require_once "traits/Validator.php";
+require_once "traits/Math.php";
+require_once "controllers/AuthController.php";
+require_once "controllers/Controller.php";
+
+
+$controllers = new AuthController;
+$controllers->register() . PHP_EOL;
+$controllers->max("test", 6);
+
+
+
+

@@ -1,6 +1,6 @@
 <?php
 
-class Person
+class Person2
 {
     private string $name = "Kate";
     // public - властивість доступна з классу і з усого коду.
