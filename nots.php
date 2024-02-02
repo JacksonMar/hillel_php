@@ -602,7 +602,7 @@ unset($object->test); // unset - видалити властівість.
 foreach ($object as $key => $value){
     echo "$key => $value \n";
 }
-
+unset($person);
 echo "==========================================================<br>" . PHP_EOL;
 
 require_once "controllers/Person.php";
@@ -634,6 +634,8 @@ try {
     // " Line: " . $exception->getLine() - лінія на якой трапилось цей екзепшн.
 
 }
+unset($person);
+unset($person2);
 
 echo "<br>=========================Dinamic===========================<br>" . PHP_EOL;
 
@@ -650,6 +652,63 @@ empty($dynamic->sity);
 unset($dynamic->dich); // видаляємо неіснуючу властивість, очікуєм виклика __unset
 
 $dynamic->test("test", "test2"); // викликаємо неіснуючуго методу, очікуєм виклику __call.
-echo "<br>==========================================================<br>" . PHP_EOL;
+echo "<br>=========================Наслідуваня та Інтерфейси===========================<br>" . PHP_EOL;
 
 
+require_once "classes/Post.php";
+require_once "classes/Blog.php";
+require_once "interfaces/DiscountInterface.php";
+require_once "classes/PercentageDiscount.php";
+require_once "classes/Order.php";
+require_once "classes/FixedDiscount.php";
+
+
+$blog = new Blog("Som title", " Som content");
+
+showPost($blog);
+echo "<br>" . PHP_EOL;
+var_dump($blog instanceof Post);  // instanceof Перевірка чи відносится обʼект $blog до классу  Post.
+// True тому шо Blog наслідуєтся від Post
+
+
+$items = [
+    ['name' => 'PC', 'price' => 25000, 'amount' => 2],
+    ['name' => 'PC mouse', 'price' => 4000, 'amount' => 1],
+    ['name' => 'Monitor', 'price' => 7000, 'amount' => 2],
+];
+
+//try {
+//    $discount = new PercentageDiscount(50);
+//    $discountFixed = new FixedDiscount(2000, 10000);
+//    $discountFixed->test('my test text');
+//    $order = new Order($items, $discountFixed);
+//
+//   $order->calculateTotal();
+//    $person = new Person('Jim', 30);
+//
+//    echo $person::$oldAge;
+//    Person::showInfo();
+////    echo $person->calculateOldAge();
+//} catch (Exception $exception) {
+//    echo $exception->getMessage();
+//
+//    Logger::log($exception->getMessage());
+//    exit;
+//}
+
+
+try {
+    $discount = new PercentageDiscount(50, 50000);
+    $fixedDiscount = new FixedDiscount(1000, 100000);
+    $order = new Order($items, $fixedDiscount);
+    $order2 = new Order($items, $discount);
+
+    echo $order->calculateTotal();
+    echo "<br>" . PHP_EOL;
+    echo $order2->calculateTotal();
+    echo "<br>" . PHP_EOL;
+
+
+}catch (Exception $exception){
+    echo $exception->getMessage();
+}

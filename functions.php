@@ -27,3 +27,8 @@ function getTemplate(string $path, array $variables = [])
     require $filePath;
     return ob_get_clean();
 }
+
+function showPost(Post $post) : void
+{
+    echo $post->getInfo();
+}
