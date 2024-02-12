@@ -264,3 +264,5 @@
 [2024-02-02 17:00:35][alert][Name in invalid File: /var/www/html/classes/Person2.php Line: 64]
 [2024-02-02 17:00:56][alert][My second logs]
 [2024-02-02 17:00:56][alert][Name in invalid File: /var/www/html/classes/Person2.php Line: 64]
+[2024-02-10 11:11:49][alert][My second logs]
+[2024-02-10 11:11:49][alert][Name in invalid File: /var/www/html/classes/Person2.php Line: 64]
