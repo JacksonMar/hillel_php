@@ -12,3 +12,5 @@
     <input type="text" id="number2" name="number2"><br><br>
     <input type="submit" value="Скласти">
 </form>
+</body>
+</html>
